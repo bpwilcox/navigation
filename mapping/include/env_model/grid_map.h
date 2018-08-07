@@ -1,0 +1,50 @@
+#ifndef ENV_MODEL_GRID_MAP_ENV_H
+#define ENV_MODEL_GRID_MAP_ENV_H
+
+#include "env_model/base_env_model.h"
+#include <grid_map_core/grid_map_core.hpp>
+
+
+class GridMapEnv : public BaseEnvModel
+{
+
+
+    public:
+        
+        
+        GridMapEnv(){}
+
+        // MAP SPECIFIC //
+        grid_map::GridMap map;
+
+
+        // INTERFACE FUNCTIONS //
+
+        // get map coordinates from cell index
+        double getPosX(int i);
+        double getPosY(int j);
+        // get map cell index from map coordinates
+        int getCellX(double x);
+        int getCellY(double y);
+
+        // perform raytracing
+        double getRayTrace(double x, double y, double a, double max_range);
+
+        //Check if map is valid 
+        bool isValid(int i, int j);
+
+        //get map value by index
+        float getValueAt(std::string layer, int i, int j);
+
+        // get map value by position 
+        float getValueAtPos(std::string layer, double x, double y);
+        
+        //Update the map layer specified
+        void updateMap(std::string layer);
+        
+        ~GridMapEnv(){}
+
+
+};
+
+#endif
