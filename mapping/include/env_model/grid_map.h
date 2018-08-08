@@ -28,7 +28,7 @@ class GridMapEnv : public BaseEnvModel
         int getCellY(double y);
 
         // perform raytracing
-        double getRayTrace(double x, double y, double a, double max_range);
+        double getRayTrace(std::string layer, double x, double y, double a, double max_range);
 
         //Check if map is valid 
         bool isValid(int i, int j);
@@ -42,6 +42,10 @@ class GridMapEnv : public BaseEnvModel
         //Update the map layer specified
         void updateMap(std::string layer);
         
+        bool getMap(std::string mapname);
+        void addMapLayer(std::string layer);
+        void addMapLayer(std::string layer,std::string mapname);
+        bool initializeMapFromServer(std::string layer, std::string mapname);
         ~GridMapEnv(){}
 
 

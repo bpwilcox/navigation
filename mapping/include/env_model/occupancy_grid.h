@@ -3,8 +3,12 @@
 
 #include "env_model/base_env_model.h"
 #include <nav_msgs/OccupancyGrid.h>
+#include <nav_msgs/GetMap.h>
+
 #include <unordered_map>
 #include <string>
+#include "ros/ros.h"
+
 
 class OccupancyGridEnv : public BaseEnvModel
 {
@@ -14,7 +18,6 @@ class OccupancyGridEnv : public BaseEnvModel
         double size_y;
         double origin_x;
         double origin_y;
-        signed char * data;
 
         struct layer_t
         {
@@ -22,6 +25,7 @@ class OccupancyGridEnv : public BaseEnvModel
             signed char * data; 
         }; 
 
+        /*
         struct Layers_t
         {        
             std::unordered_map<std::string, int> layer_id;  
@@ -32,26 +36,31 @@ class OccupancyGridEnv : public BaseEnvModel
             }
         };
 
+        Layers_t LayerMap;
+
+        */
+
+        //This map is a placeholder, it can be overwritten via getMap 
+        nav_msgs::OccupancyGrid map;
+
+        //This is our container for map layers 
         std::unordered_map<std::string, layer_t> MapLayers;  
 
+        
 
+
+        
 
     public:
         
         
 
-
+        //Should constructor initialize map? 
         OccupancyGridEnv(){}
-        OccupancyGridEnv(std::string layer, nav_msgs::OccupancyGrid map);
 
         // MAP SPECIFIC //
-
-        nav_msgs::OccupancyGrid map;
-        Layers_t LayerMap;
-        void convertMap(std::string layer, nav_msgs::OccupancyGrid map);
+        
         int MapToDataIndex(int i, int j);
-        void addMapLayer(std::string layer);
-        void addMapLayer(std::string layer, nav_msgs::OccupancyGrid map);
 
         // INTERFACE FUNCTIONS //
 
@@ -64,7 +73,7 @@ class OccupancyGridEnv : public BaseEnvModel
         int getCellY(double y);
 
         // perform raytracing
-        double getRayTrace(double x, double y, double a, double max_range);
+        double getRayTrace(std::string occ_layer, double ox, double oy, double oa, double max_range);
 
         //Check if map is valid 
         bool isValid(int i, int j);
@@ -75,9 +84,22 @@ class OccupancyGridEnv : public BaseEnvModel
         // get map value by position 
         float getValueAtPos(std::string layer, double x, double y);
         
+        // grab map from map server
+        bool getMap(std::string mapname);
+
+        // initialize metadata and layer from map
+        bool initializeMapFromServer(std::string layer, std::string mapname);
+
+        // add an empty map layer
+        void addMapLayer(std::string layer);
+
+        // add a specified map to layer (may decide to reject map if doesn't match the metadata)
+        void addMapLayer(std::string layer,std::string mapname);
+
         //Update the map layer specified
         void updateMap(std::string layer);
         
+
         ~OccupancyGridEnv(){}
 
 

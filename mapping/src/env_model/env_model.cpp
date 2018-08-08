@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 #include "ros/console.h"
 #include "env_model/env_models.h"
-
+#include "env_model/env_model_loader.h"
 
 
 /*
@@ -22,8 +22,11 @@ int main(int argc, char **argv)
     // Factory
     EnvModelLoader *m = new EnvModelLoader();
     BaseEnvModel* MyEnv = m->createEnv("occupancy");
-    OccupancyGridEnv *OccEnv;
-    OccEnv = dynamic_cast<OccupancyGridEnv*>(MyEnv);
+    //MyEnv->getMap("static_occ_grid");
+    ROS_INFO("value %f", MyEnv->getPosX(1));
+
+    //OccupancyGridEnv *OccEnv;
+    //OccEnv = dynamic_cast<OccupancyGridEnv*>(MyEnv);
 
     
 

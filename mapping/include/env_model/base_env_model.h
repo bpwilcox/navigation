@@ -25,7 +25,7 @@ class BaseEnvModel
         virtual int getCellY(double y) = 0;
 
         // perform raytracing
-        virtual double getRayTrace(double x, double y, double a, double max_range) = 0;
+        virtual double getRayTrace(std::string layer, double x, double y, double a, double max_range) = 0;
 
         //Check if map is valid 
         virtual bool isValid(int i, int j) = 0;
@@ -38,6 +38,18 @@ class BaseEnvModel
         
         //Update the map layer specified
         virtual void updateMap(std::string layer) = 0;
+        
+        // Get map given a map name (assuming service message from map server)
+        virtual bool getMap(std::string mapname) = 0;
+
+        //Initialize map object from map server 
+        virtual bool initializeMapFromServer(std::string layer, std::string mapname) = 0;
+
+        //add empty layer
+        virtual void addMapLayer(std::string layer) = 0;
+
+        //add specificed map to map layer
+        virtual void addMapLayer(std::string layer,std::string mapname) = 0;
         
         ~BaseEnvModel(){}
 

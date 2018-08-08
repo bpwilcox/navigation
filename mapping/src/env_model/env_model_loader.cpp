@@ -1,20 +1,24 @@
-#include "env_model/env_models.h"
+#include "env_model/env_model_loader.h"
 
-class EnvModelLoader 
+
+BaseEnvModel* EnvModelLoader::createEnv(std::string EnvType)
 {
-    public:
-        static EnvModelLoader* createEnv(std::string EnvType)
-        {
-            if (EnvType=="occupancy")
-            {
-                return new OccupancyGridEnv;
-            }
-            else if (EnvType=="gridmap")
-            {
-                return new GridMapEnv;
-            
-            }                           
-        }
+    if (EnvType=="occupancy")
+    {
 
-};
+       return new OccupancyGridEnv;
+    }
+    /*
+    else if (EnvType=="gridmap")
+    {
 
+        BaseEnvModel* MyEnv = new GridMapEnv;
+        GridMapEnv *GridEnv;
+        GridEnv = dynamic_cast<GridMapEnv*>(MyEnv);
+
+
+        return GridEnv;
+    
+    }   
+    */                        
+}

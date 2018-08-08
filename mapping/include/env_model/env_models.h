@@ -1,5 +1,5 @@
 #ifndef ENV_MODEL_ENV_MODELS_H
-#define ENV_MODELE_ENV_MODELS_H
+#define ENV_MODEL_ENV_MODELS_H
 
 
 #include "env_model/occupancy_grid.h"
