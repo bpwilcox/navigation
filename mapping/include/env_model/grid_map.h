@@ -3,7 +3,9 @@
 
 #include "env_model/base_env_model.h"
 #include <grid_map_core/grid_map_core.hpp>
-
+#include <grid_map_ros/grid_map_ros.hpp>
+#include <grid_map_msgs/GridMap.h>
+#include <grid_map_msgs/GetGridMap.h>
 
 class GridMapEnv : public BaseEnvModel
 {
@@ -16,7 +18,7 @@ class GridMapEnv : public BaseEnvModel
 
         // MAP SPECIFIC //
         grid_map::GridMap map;
-
+        grid_map_msgs::GetGridMap map_msg;
 
         // INTERFACE FUNCTIONS //
 
@@ -43,9 +45,13 @@ class GridMapEnv : public BaseEnvModel
         void updateMap(std::string layer);
         
         bool getMap(std::string mapname);
+
         void addMapLayer(std::string layer);
+
         void addMapLayer(std::string layer,std::string mapname);
+
         bool initializeMapFromServer(std::string layer, std::string mapname);
+
         ~GridMapEnv(){}
 
 

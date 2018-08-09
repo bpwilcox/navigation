@@ -73,7 +73,6 @@ float OccupancyGridEnv::getValueAtPos(std::string layer, double x, double y)
 
 bool OccupancyGridEnv::getMap(std::string mapname)
 {
-    nav_msgs::GetMap occ_srv; 
     if (ros::service::call(mapname,occ_srv))
     {
         ROS_INFO("Occupancy Grid Environment Created!");
@@ -99,11 +98,16 @@ bool OccupancyGridEnv::initializeMapFromServer(std::string layer, std::string ma
     origin_x = map.info.origin.position.x + (size_x / 2) * resolution;
     origin_y = map.info.origin.position.y + (size_y / 2) * resolution;
 
+    addMapLayer("distance");
+    setLayerData("distance", )
+
 }
 
 
 //Update the map layer specified
-void OccupancyGridEnv::updateMap(std::string layer) {}
+void OccupancyGridEnv::updateMap(std::string layer) 
+{
+}
         
 // perform raytracing
 double OccupancyGridEnv::getRayTrace(std::string occ_layer, double ox, double oy, double oa, double max_range) 

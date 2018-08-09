@@ -8,48 +8,23 @@
 #include <unordered_map>
 #include <string>
 #include "ros/ros.h"
-
+#include "env_model/occ_grid_layer.h"
 
 class OccupancyGridEnv : public BaseEnvModel
 {
     private:
         double resolution;
-        double size_x;
-        double size_y;
+        int size_x;
+        int size_y;
         double origin_x;
         double origin_y;
 
-        struct layer_t
-        {
-            std::string name;
-            signed char * data; 
-        }; 
-
-        /*
-        struct Layers_t
-        {        
-            std::unordered_map<std::string, int> layer_id;  
-            layer_t *layer; 
-            layer_t operator() (std::string name)
-            {   
-                return layer[layer_id[name]];
-            }
-        };
-
-        Layers_t LayerMap;
-
-        */
-
         //This map is a placeholder, it can be overwritten via getMap 
         nav_msgs::OccupancyGrid map;
+        nav_msgs::GetMap occ_srv; 
 
         //This is our container for map layers 
         std::unordered_map<std::string, layer_t> MapLayers;  
-
-        
-
-
-        
 
     public:
         
