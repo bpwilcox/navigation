@@ -78,6 +78,7 @@ add_library(map_reps
 	#src/env_model/env_model_ros.cpp
 	src/env_model/env_model_loader.cpp
 	#src/env_model/env_model.cpp
+	src/utilities/cacheddistmap.cpp
 )
 
 
@@ -90,6 +91,12 @@ target_link_libraries(map_reps
 	${YAMLCPP_LIBRARIES}
 )
 
+add_executable(env_model_client src/env_model/env_model_client.cpp)
+add_dependencies(env_model_client ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(env_model_client
+    map_reps
+    ${catkin_LIBRARIES}
+)
 
 add_executable(env_model src/env_model/env_model_ros.cpp)
 add_dependencies(env_model ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
@@ -151,7 +158,7 @@ endif()
 
 
 ## Install executables and/or libraries
-install(TARGETS mapping-map_saver map_reps mapping_server env_model
+install(TARGETS mapping-map_saver map_reps mapping_server env_model env_model_client
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION})

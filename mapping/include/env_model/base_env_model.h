@@ -51,6 +51,8 @@ class BaseEnvModel
         //add specificed map to map layer
         virtual void addMapLayer(std::string layer,std::string mapname) = 0;
         
+        virtual void setLayerData(std::string layer) = 0;
+        
         ~BaseEnvModel(){}
 
 };

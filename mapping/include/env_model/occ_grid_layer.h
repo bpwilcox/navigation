@@ -1,7 +1,7 @@
 #ifndef ENV_MODEL_OCC_GRID_LAYER_H
 #define ENV_MODEL_OCC_GRID_LAYER_H
 
-#include <string.h>
+#include <string>
 
 struct layer_t
 {   //May later decide to add meta_data into layer  OR even specific layer functionality
@@ -17,6 +17,7 @@ struct layer_t
     */
 
     std::string name;
+    std::string data_type;
     union {
         signed char * data;  
         double * ddata;  

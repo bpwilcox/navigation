@@ -46,14 +46,15 @@ class CellData
     layer_t layer;
     unsigned int i_, j_;
     unsigned int src_i_, src_j_;
+    int size_x;
+    int size_y;
 };
 
 class CachedDistanceMap
 {
   public:
-    CachedDistanceMap(double scale, double max_dist, int size_x, int size_y) : 
-      distances_(NULL), scale_(scale), max_dist_(max_dist), size_x_(size_x), size_y_(size_y) {}
-    ~CachedDistanceMap(){}
+    CachedDistanceMap(double scale, double max_dist, int size_x, int size_y);
+    ~CachedDistanceMap();
 
     double** distances_;
     double scale_;
@@ -64,22 +65,20 @@ class CachedDistanceMap
     layer_t cmap;
 
     
+    
 
     void enqueue(layer_t occ_layer, int i, int j,
 	     int src_i, int src_j,
 	     std::priority_queue<CellData>& Q,
-	     CachedDistanceMap* cdm,
 	     unsigned char* marked);
 
-    int MapToDataIndex(int i, int j) {return i + j * size_x_;}
+    
 
     CachedDistanceMap* get_distance_map(double scale, double max_dist);   
 
     // Update the cspace distance values
     void map_update_cspace(layer_t occ_layer, int size_x, int size_y, double scale, double max_occ_dist);     
 };
-
-    bool operator<(const CellData& a, const CellData& b);
 
 /*
 Goal: create data layer for cspace distance values

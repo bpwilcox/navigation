@@ -1,7 +1,8 @@
 #include "env_model/grid_map.h"
 #include "ros/ros.h"
 #include <math.h>    
-
+#include <grid_map_msgs/GridMap.h>
+#include <grid_map_ros/grid_map_ros.hpp>
 //For now, implement calculations as previous
         
 
@@ -49,7 +50,7 @@ bool GridMapEnv::getMap(std::string mapname)
         ROS_ERROR("Failed to call service");
         return 1;
     }
-    GridMapRosConverter::fromMessage(map_msg,map);
+    grid_map::GridMapRosConverter::fromMessage(map_msg.response.map,map);
 
     return 0;
 
@@ -73,9 +74,12 @@ void GridMapEnv::addMapLayer(std::string layer, std::string mapname)
 //Update the map layer specified
 void GridMapEnv::updateMap(std::string layer) {}
         
+
 // perform raytracing
 double GridMapEnv::getRayTrace(std::string occ_layer, double ox, double oy, double oa, double max_range) 
 {
    
 
 }
+
+void GridMapEnv::setLayerData(std::string layer){}

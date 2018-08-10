@@ -74,7 +74,10 @@ class OccupancyGridEnv : public BaseEnvModel
         //Update the map layer specified
         void updateMap(std::string layer);
         
+        void setLayerData(std::string layer);
 
+        void setLayerDataOcc(std::string layer, layer_t mylayer);
+        
         ~OccupancyGridEnv(){}
 
 

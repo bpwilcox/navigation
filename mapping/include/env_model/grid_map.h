@@ -52,6 +52,9 @@ class GridMapEnv : public BaseEnvModel
 
         bool initializeMapFromServer(std::string layer, std::string mapname);
 
+        void setLayerData(std::string layer);
+
+        
         ~GridMapEnv(){}
 
 

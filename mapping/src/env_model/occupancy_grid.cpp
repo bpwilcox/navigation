@@ -1,7 +1,8 @@
 #include "env_model/occupancy_grid.h"
 #include "ros/ros.h"
 #include <math.h>    
-
+#include <typeinfo>
+#include "utilities/cacheddistmap.h"
 //For now, implement calculations as previous
         
 
@@ -23,9 +24,12 @@ void OccupancyGridEnv::addMapLayer(std::string layer, std::string mapname)
     layer_t new_layer;
     new_layer.name = layer;
     new_layer.data = map.data.data();
+    new_layer.data_type = typeid(new_layer.data).name();
     MapLayers[layer] = new_layer;
 
     ROS_INFO("Layer '%s' added with map '%s'", layer.c_str(), mapname.c_str());
+    ROS_INFO("data type is '%s'", new_layer.data_type.c_str());
+
 }
 
 int OccupancyGridEnv::MapToDataIndex(int i, int j) {return i + j * size_x;}
@@ -56,7 +60,12 @@ float OccupancyGridEnv::getValueAt(std::string layer, int i, int j)
     index = MapToDataIndex(i,j);
     //value = (float) (LayerMap(layer).data[index]-'0');
     //value = (float) (MapLayers[layer].data[index] - '0');
-    value = (float) (MapLayers[layer].data[index]);
+
+    if(typeid(MapLayers[layer].data).name()==MapLayers[layer].data_type)
+        value = (float) (MapLayers[layer].data[index]);
+    else
+        value = (float) (MapLayers[layer].ddata[index]);
+
 
     return value;
 }
@@ -98,11 +107,24 @@ bool OccupancyGridEnv::initializeMapFromServer(std::string layer, std::string ma
     origin_x = map.info.origin.position.x + (size_x / 2) * resolution;
     origin_y = map.info.origin.position.y + (size_y / 2) * resolution;
 
+
     addMapLayer("distance");
-    setLayerData("distance", )
+    CachedDistanceMap * cdm = new CachedDistanceMap(resolution, 100.0, size_x, size_y);
+    cdm->map_update_cspace(MapLayers[layer],size_x, size_y, resolution, 100.0);
+    setLayerDataOcc("distance", cdm->cmap);
+}
+void OccupancyGridEnv::setLayerData(std::string layer)
+{
+
 
 }
 
+void OccupancyGridEnv::setLayerDataOcc(std::string layer, layer_t mylayer)
+{
+    MapLayers[layer].ddata = mylayer.ddata;
+    MapLayers[layer].data_type = typeid(mylayer.ddata).name();
+    ROS_INFO("Added Data to Layer '%s'", layer.c_str());
+}
 
 //Update the map layer specified
 void OccupancyGridEnv::updateMap(std::string layer) 
